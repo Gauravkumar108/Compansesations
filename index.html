@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>From My Heart to Yours</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- important for mobile -->
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #fceabb, #f8b500);
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      flex-direction: column;
+      text-align: center;
+    }
+
+    #note {
+      width: 100%;
+      max-width: 600px;
+      padding: 25px;
+      background: white;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      border-radius: 15px;
+      animation: fadeIn 2s ease;
+    }
+
+    .hidden-message {
+      margin-top: 20px;
+      display: none;
+      font-style: italic;
+      color: #555;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      background-color: #f76c6c;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      width: 100%;
+      max-width: 300px;
+    }
+
+    button:hover {
+      background-color: #ff5252;
+    }
+
+    select {
+      margin-bottom: 20px;
+      padding: 10px;
+      font-size: 1rem;
+      width: 100%;
+      max-width: 300px;
+    }
+    mode{
+      border: white;
+      border-radius: 5px;
+      border-style: groove;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      #note {
+        padding: 20px;
+      }
+
+      button, select {
+        font-size: 0.95rem;
+        padding: 10px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      body {
+        padding: 15px;
+      }
+
+      #note {
+        padding: 15px;
+      }
+
+      button, select {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <select id="mode" onchange="changeMode()">
+    <option value="love">Love Note</option>
+    <option value="apology">Apology Letter</option>
+  </select>
+
+  <div id="note">
+    <div id="message"></div>
+    <button onclick="revealMessage()">Click to Reveal</button>
+    <div class="hidden-message" id="hiddenMessage">❤️ I mean every word. Subhiii My Cutiepie. ❤️</div>
+  </div>
+
+  <script>
+    const messages = {
+      love: "Hey you, just wanted to say... you're my favorite part of every day. You make the world feel brighter and my heart lighter.",
+      apology: "I'm sorry. Truly. I never meant to hurt you, and I hope you can see how much I care — enough to want to make things right."
+    };
+
+    function typeWriter(text, i = 0, callback) {
+      if (i < text.length) {
+        document.getElementById("message").innerHTML = text.substring(0, i + 1);
+        setTimeout(() => typeWriter(text, i + 1, callback), 40);
+      } else if (callback) {
+        callback();
+      }
+    }
+
+    function changeMode() {
+      const mode = document.getElementById("mode").value;
+      document.getElementById("hiddenMessage").style.display = 'none';
+      typeWriter(messages[mode]);
+    }
+
+    function revealMessage() {
+      document.getElementById("hiddenMessage").style.display = 'block';
+    }
+
+    // Initial load
+    window.onload = () => {
+      changeMode();
+    };
+  </script>
+</body>
+</html>
